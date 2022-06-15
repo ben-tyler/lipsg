@@ -1,10 +1,25 @@
 <html>
     <script src="https://cdn.jsdelivr.net/npm/@jcubic/lips@beta/dist/lips.min.js"></script>
 
+
+
+    <canvas id="myCanvas" width="200" height="100" style="border:1px solid #000000;">
+    </canvas>
+
+
+
     <script type="text/x-scheme" bootstrap>
         (print "hello
         world")
-    </script>
+        (let ((x (document.querySelector "canvas")))
+            (if (null? x)
+                (print "no tag 'missing'"))
+            (let ((ctx (x.getContext "2d")))
+                (print ctx)
+                (ctx.moveTo 0 0)
+                (ctx.lineTo 200 100)
+                (ctx.stroke))
+            )
 
-    <h1>Help</h1>
+    </script>
 </html>
