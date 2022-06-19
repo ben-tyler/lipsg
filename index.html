@@ -1,25 +1,38 @@
 <html>
     <script src="https://cdn.jsdelivr.net/npm/@jcubic/lips@beta/dist/lips.min.js"></script>
+    <script src="https://pixijs.download/release/pixi.js"></script>
+    <script type="text/x-scheme"  bootstrap>
+        (define app
+            (new PIXI.Application))
 
+        (document.body.appendChild app.view)
 
-
-    <canvas id="myCanvas" width="200" height="100" style="border:1px solid #000000;">
-    </canvas>
-
-
-
-    <script type="text/x-scheme" bootstrap>
-        (print "hello
-        world")
-        (let ((x (document.querySelector "canvas")))
-            (if (null? x)
-                (print "no tag 'missing'"))
-            (let ((ctx (x.getContext "2d")))
-                (print ctx)
-                (ctx.moveTo 0 0)
-                (ctx.lineTo 200 100)
-                (ctx.stroke))
-            )
-
+      ;;(app.ticker.add (lambda (delta) (print delta)))
     </script>
+
+
+    <script type="text/javascript" src="https://sandbox.web.squarecdn.com/v1/square.js"></script>
+    <script>
+      const appId = '';
+      const locationId = '';
+      console.log(window.Square)
+    </script>
+    <script type="text/x-scheme" bootstrap>
+      (define (initCard payments)
+       (define one (eval (payments.card)))
+       (define two (eval (card.attach "#card-container"))))
+
+      ;;(document.addEventListener "DomContentLoaded" (lambda
+						       ;;			     (print window.Square)))
+
+      (print window.Square)
+      
+    </script>
+    <form id="payment-form">
+      <div id="card-container"></div>
+      <button id="card-button" type="button">Pay $1.00</button>
+    </form>
+    <div id="payment-status-container"></div>
+
+
 </html>
