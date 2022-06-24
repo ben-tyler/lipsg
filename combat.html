@@ -1,0 +1,56 @@
+<html>
+    <script src="https://cdn.jsdelivr.net/npm/@jcubic/lips@beta/dist/lips.min.js"></script>
+    <script src="https://pixijs.download/release/pixi.js"></script>
+    <script type="text/x-scheme"  bootstrap>
+      (define obj &(:backgroundColor "0x1099bb"))
+      (define app (new PIXI.Application obj)) 
+      
+      (define (server x y)
+       (let ((graphics (new PIXI.Graphics))
+	     (text (new PIXI.Text "server"))
+	     (container (new PIXI.Container))
+	     (halfCircle (new PIXI.Graphics))
+	     (rectangle (new PIXI.Graphics))
+	     (phase 0))
+
+	(halfCircle.beginFill "0xff0000")
+	(halfCircle.lineStyle 2 "0xffffff")
+	(halfCircle.arc 0 0 100 0 Math.PI)
+	(halfCircle.endFill)
+	(halfCircle.position.set 50 50)
+
+	(rectangle.lineStyle 2 "0xffffff" 1)
+	(rectangle.drawRoundedRect 0 0 100 100 16)
+	(rectangle.endFill)
+	(set! rectangle.mask halfCircle)
+	(container.addChild rectangle)
+	(container.addChild halfCircle)
+
+	
+	(set! text.x x)
+	(set! text.y (- y 50))
+
+	(graphics.beginFill "0xDE3249")
+	(graphics.drawRect x y 100 100)
+
+	;;(app.stage.addChild graphics)
+	(app.stage.addChild text)
+	(set! container.position (new PIXI.Point x y))
+	(app.stage.addChild container)
+	(lambda (delta) 
+	    (set! phase (+ phase (/ delta 6)))
+            (set! phase (% phase (* Math.PI 2)))
+	    (set! halfCircle.rotation phase))))
+      
+      
+      (document.body.appendChild app.view)
+
+      (define servCB (server 350 150))
+      (server 150 300)
+
+      (app.ticker.add (lambda (delta) (servCB delta)))
+
+
+      (console.log app)
+    </script>
+</html>
