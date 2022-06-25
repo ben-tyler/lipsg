@@ -7,6 +7,32 @@
 
         (document.body.appendChild app.view)
 
-        (app.ticker.add (lambda (delta) (print delta)))
+      ;;(app.ticker.add (lambda (delta) (print delta)))
     </script>
+
+
+    <script type="text/javascript" src="https://sandbox.web.squarecdn.com/v1/square.js"></script>
+    <script>
+      const appId = '';
+      const locationId = '';
+      console.log(window.Square)
+    </script>
+    <script type="text/x-scheme" bootstrap>
+      (define (initCard payments)
+       (define one (eval (payments.card)))
+       (define two (eval (card.attach "#card-container"))))
+
+      ;;(document.addEventListener "DomContentLoaded" (lambda
+						       ;;			     (print window.Square)))
+
+      (print window.Square)
+      
+    </script>
+    <form id="payment-form">
+      <div id="card-container"></div>
+      <button id="card-button" type="button">Pay $1.00</button>
+    </form>
+    <div id="payment-status-container"></div>
+
+
 </html>
