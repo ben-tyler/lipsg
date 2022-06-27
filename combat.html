@@ -4,19 +4,53 @@
 (define obj &(:backgroundColor "0x1099bb"))
 (define app (new PIXI.Application obj)) 
 
-(define info
-"
+(define server '( (connected-to nil)
+		  (load 0)))
 
-server
-load: 0% 
+(define abilities '( (connect 10)
+		     (denial-of-service 50)
+		     (root-kit nil)))
 
-")
+(define (run-ability server ability args)
+  ;;if connect then
+  ;; find connection from args
+  ;; create new state with:
+  ;; update connected-to
+  ;; update load
+  ;; add state to list
+  ;; this will trigger updating the UI
+  )
+
+
+;;(print (append! '( 1 2 3 ) . ('( 6 7 8))))
+(define play-state '( init ))
+;;(print play-state)
+;;(append! play-state . ( '(two) ))
+;;(set! play-state (cons 'two play-state))
+;;(set! play-state (cons 'three play-state))
+;;(print play-state)
 
 (define game-state
-  '( (server ("Mallard" 150 150)
-	     ("Dabbling" 300 300))))
-(let ((call-backs '()))
+  '( (cpu ("Mallard" 150 450)
+	  ("Dabbling" 300 150))))
 
+(define (next-play-state in-play-state next-state)
+  (set! play-state (cons next-state (cons in-play-state '()))))
+
+(define get-play-state (lambda () (car play-state)))
+
+(window.addEventListener "keyup"
+			 (lambda ()
+			   (next-play-state play-state '( (cpu "foo" 200 200)))
+			   (console.log "HEllo world"))
+			 false)
+;
+
+(define call-backs (let ()))
+
+(define (update-cpu-text cpu-name new-text)
+  1)
+  
 (define (draw-connection x0 y0 x1 y1)
   1)
 
@@ -48,7 +82,21 @@ load: 0%
     (app.stage.addChild text)
     (set! container.position (new PIXI.Point x y))
     (app.stage.addChild container)
-    (set! call-backs (cons call-backs (lambda () (set! text.text "foo"))))
+    (set! call-backs (cons call-backs (lambda ()
+					(set)
+					(set! text.text "foo"))))
+    ;; it should return a list of lambdas, that give us access
+    ;; to state changes via callbacks
+
+    ;; The other option, probably better is observables.
+    ;; However the main issue is that the concept of how to actually
+    ;; change the game state is not addressed.
+
+    ;; I propose that what would be coolest, would be to
+    ;; add another frame onto a gamestate list that provides the updated state
+    ;; when a new frame is added. Each corresponding game item should
+    ;; have its callbacks (or observables) which then need to be linked
+    ;; to the updated game state, and applied
     (lambda (delta)
       (set! phase (+ phase (/ delta 6)))
       (set! phase (% phase (* Math.PI 2)))
@@ -67,9 +115,8 @@ load: 0%
 ;;(app.ticker.add (lambda (delta)
 ;;		  (servTwoAB delta)
 ;;		  (servCB delta)))
-		
-;;(console.log game-state)
-(set! window.callbacks call-backs))
+;(console.log game-state)
+(set! window.callbacks call-backs)
 </script>
 
 </html>

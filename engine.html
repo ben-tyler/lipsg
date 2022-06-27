@@ -1,0 +1,47 @@
+;<html><script src="https://cdn.jsdelivr.net/npm/@jcubic/lips@beta/dist/lips.min.js"></script><script src="https://pixijs.download/release/pixi.js"></script><script type="text/x-scheme"  bootstrap>
+
+(define app (new PIXI.Application
+		 &(:backgroundColor "0x1099bb")))
+
+(define (text init-input)
+  (let (v (new PIXI.Text init-input))
+    (set! v.x 50)
+    (set! v.y 50)
+    (app.stage.addChild v)
+   ;; (lambda (new-input)
+     ;; (set! v.text new-input))))
+))
+(define state '(
+		( "text" ,() )
+
+		))
+
+
+(define commands '( update-text ));
+
+
+(define (run-command command args)
+  ;; update state
+  ;; make state run its draw commands
+  )
+
+(define (tick delta)
+  );;(console.log delta))
+
+
+(text "foo")
+;;(define testcb (text "Hello"))
+
+(define (key-press key)
+  (testcb "world")
+  (console.log key))
+
+(window.addEventListener "keypress"
+			 key-press
+			 false)
+(app.ticker.add tick)
+(document.body.appendChild app.view)
+
+
+
+;</script><html>
