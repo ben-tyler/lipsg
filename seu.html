@@ -1,0 +1,71 @@
+;<html><script src="https://cdn.jsdelivr.net/npm/@jcubic/lips@beta/dist/lips.min.js"></script><script src="https://pixijs.download/release/pixi.js"></script><script type="text/x-scheme"  bootstrap>
+
+(define speed 10)
+(define app (new PIXI.Application
+		 &(:backgroundColor "0x1099"
+	           :width "400"
+		   :height "250")))
+
+(define (create-text name x y)
+  (define t (new PIXI.Text name)) 
+  (set! t.x x) 
+  (set! t.y y)
+  (app.stage.addChild t)
+  t)
+
+(define bullets '())
+(define ship (create-text ">" 50 100))
+(define ens '())
+(define (new-en)
+  (set! ens (cons (create-text "w" 350 100) ens)))
+(new-en)
+(define (shoot)
+  (set! bullets
+	(cons (create-text "*" ship.x ship.y) bullets)))
+(define (move-up p)
+  (set! p.y (- p.y speed)))
+(define (move-down p)
+  (set! p.y (+ p.y speed)))
+(define (move-right p)
+  (set! p.x (+ p.x 1)))
+(define (colision p1 p2)
+  (define hit-y (and (< p1.y (+ p2.y p2.height ))
+		     (> p1.y (- p2.y p2.height ))))
+  (define hit-x (and (< p1.x (+ p2.x p2.width))
+		     (> p1.x (- p2.x p2.width))))
+  (and hit-y hit-x))
+
+
+(define (remove-target t)
+  (t.destory t)
+  ;;(remove t bullets)
+  nil)
+  
+(define (bullet-collision b e)
+ '()) 
+
+(define (gl delta)
+  (bullet-collision bullets ens)
+  (map move-right bullets))
+
+(define log (create-text "" 50 200))
+
+(define (key-press e)
+  (cond
+   [(equal? e.code "ArrowUp") (move-up ship)]
+   [(equal? e.code "ArrowDown") (move-down ship)]
+   [(equal? e.code "Space") (shoot)]
+   [else 
+    (set! log.text
+	  (string-append log.text e.code)))))
+	
+(document.addEventListener "keydown"
+			   key-press
+			   false)
+
+;(document.addEventListener "keyup"
+;			   key-press
+;			   false)
+(app.ticker.add gl) 
+(document.body.appendChild app.view)
+;</script><html>
